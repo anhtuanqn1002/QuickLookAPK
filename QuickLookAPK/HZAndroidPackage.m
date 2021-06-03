@@ -314,7 +314,41 @@ NSString *androidPackageHTMLPreview(HZAndroidPackage *package)
     NSTextCheckingResult *result = [matches lastObject];
     NSRange range = [result rangeAtIndex:1];
     self.iconPath = [apkString substringWithRange:range];
+    
+    if ([self.iconPath containsString:@"anydpi-v26"]) {
+        // Icon is vector drawable, try convert res/mipmap-anydpi-v26/ic_launcher.xml -> res/mipmap-xxxhdpi-v4/ic_launcher.png
+        self.iconPath = [self.iconPath stringByReplacingOccurrencesOfString:@".xml" withString:@".png"];
+        NSString *resType = [self.iconPath containsString:@"mipmap"] ? @"mipmap" : @"drawable";
+
+        self.iconPath = [self.iconPath
+                         stringByReplacingOccurrencesOfString:[resType stringByAppendingString:@"-anydpi-v26"]
+                         withString:[resType stringByAppendingString:@"-xxxhdpi-v4"]];
+        self.iconData = dataFromZipPath(self.path, self.iconPath);
+        
+        if (self.iconData == nil) {
+            self.iconPath = [self.iconPath
+                             stringByReplacingOccurrencesOfString:[resType stringByAppendingString:@"-xxxhdpi-v4"]
+                             withString:[resType stringByAppendingString:@"-xxhdpi-v4"]];
             self.iconData = dataFromZipPath(self.path, self.iconPath);
+        }
+        
+        if (self.iconData == nil) {
+            self.iconPath = [self.iconPath
+                             stringByReplacingOccurrencesOfString:[resType stringByAppendingString:@"-xxhdpi-v4"]
+                             withString:[resType stringByAppendingString:@"-xhdpi-v4"]];
+            self.iconData = dataFromZipPath(self.path, self.iconPath);
+        }
+        
+        if (self.iconData == nil) {
+            self.iconPath = [self.iconPath
+                             stringByReplacingOccurrencesOfString:[resType stringByAppendingString:@"-xhdpi-v4"]
+                             withString:[resType stringByAppendingString:@"-hdpi-v4"]];
+            self.iconData = dataFromZipPath(self.path, self.iconPath);
+        }
+
+    } else {
+        self.iconData = dataFromZipPath(self.path, self.iconPath);
+    }
 
     regex = [NSRegularExpression regularExpressionWithPattern:@"uses-permission: name='([^\\v\\h]+)'"
                                                       options:0
