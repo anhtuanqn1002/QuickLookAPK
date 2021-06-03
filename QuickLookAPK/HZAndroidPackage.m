@@ -8,7 +8,7 @@
 
 #import "HZAndroidPackage.h"
 
-NSDictionary *permissionsMap( )
+NSDictionary *permissionsMap()
 {
     // Got it from: http://developer.android.com/reference/android/Manifest.permission.html
     static NSDictionary *permissionsMap;
@@ -266,7 +266,7 @@ NSString *androidPackageHTMLPreview(HZAndroidPackage *package)
                                                 encoding:NSUTF8StringEncoding];
 
     NSError *error = nil;
-    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"package: name='(.+)' versionCode='(.+)' versionName='(.+)' platformBuildVersionName='.*'"
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"package: name='(.+)' versionCode='(.+)' versionName='([^']+)'"
                                                                            options:NSRegularExpressionCaseInsensitive
                                                                              error:&error];
 
@@ -314,7 +314,7 @@ NSString *androidPackageHTMLPreview(HZAndroidPackage *package)
     NSTextCheckingResult *result = [matches lastObject];
     NSRange range = [result rangeAtIndex:1];
     self.iconPath = [apkString substringWithRange:range];
-    self.iconData = dataFromZipPath(self.path, self.iconPath);
+            self.iconData = dataFromZipPath(self.path, self.iconPath);
 
     regex = [NSRegularExpression regularExpressionWithPattern:@"uses-permission: name='([^\\v\\h]+)'"
                                                       options:0
