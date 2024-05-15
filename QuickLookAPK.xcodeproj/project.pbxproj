@@ -329,6 +329,7 @@
 				GCC_PREFIX_HEADER = "QuickLookAPK/QuickLookAPK-Prefix.pch";
 				INFOPLIST_FILE = "QuickLookAPK/QuickLookAPK-Info.plist";
 				INSTALL_PATH = /Library/QuickLook;
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				MARKETING_VERSION = 1.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.hezicohen.qlapk;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -346,6 +347,7 @@
 				GCC_PREFIX_HEADER = "QuickLookAPK/QuickLookAPK-Prefix.pch";
 				INFOPLIST_FILE = "QuickLookAPK/QuickLookAPK-Info.plist";
 				INSTALL_PATH = /Library/QuickLook;
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				MARKETING_VERSION = 1.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.hezicohen.qlapk;
 				PRODUCT_NAME = "$(TARGET_NAME)";
